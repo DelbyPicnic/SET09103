@@ -4,6 +4,7 @@
 		"img_own":"Joe Bloggs", 
 		"img_desc":"Lorem ipsum dolor sit amet..", 
 		"img_views":4, 
-		"img_tags":"tag1, tag2, tag3, tag4"
+		"img_tags":"tag1, tag2, tag3, tag4",
+		"img_flags":"DUPLICATE, OFFENSIVE, OTHER<txt>"
 	}
 }
