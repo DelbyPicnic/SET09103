@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">
+			<a class="navbar-brand" href="/">
 				<svg width="100" height="24">
 					<text x="0" y="24" class="logo-text">REC</text>
 			  		<circle cx="68" cy="13" r="10" fill="#990000">
@@ -35,9 +35,9 @@
 				<ul class="navbar-nav mr-auto">
 
 				</ul>
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">SEARCH</button>
+				<form class="form-inline my-2 my-lg-0" acton="/" method="get" name="search">
+					<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search" id="search">
+					<button class="btn btn-outline-danger my-2 my-sm-0" type="submit" id="submit">SEARCH</button>
 				</form>
 			</div>
 		</nav>
@@ -46,16 +46,16 @@
 			<div class="row">
 				{% for d in data %}
 				<div class="col">
-					<figure class="figure">
-						<div class="video">
-				      		<video class="thevideo" style="width: 100%; height: 100%" loop>
+					<div class="video">
+						<a href="/view/{% print(d) %}">
+				      		<video style="width: 100%;" loop>
 								<source src="static/data/vid/{% print(data[d]["img_link"]) %}" type="video/mp4">
 								Your browser does not support the video tag.
 							</video>
-						</div>
-					</figure> 
+						</a>
+					</div>
 				</div>
-				{% if loop.index is divisibleby(2) and not loop.last %}	
+				{% if loop.index is divisibleby(3) and not loop.last %}
 				</div><div class="row">
 				{% endif %}
 			{% endfor %}
