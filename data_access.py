@@ -6,7 +6,7 @@ import json, sys
 # Method to retrieve all the data from the JSON file in one go
 def getData():
 	try:
-		openFile = open("static/data/data.JSON","r")
+		openFile = open("static/data/fileData.JSON","r")
 		fileData = openFile.read()
 
 		allData = json.loads(fileData)
@@ -21,6 +21,25 @@ def getData():
 		print("Unexpected error when reading file: ", sys.exc_info()[0])
 		raise
 
+# Method to get all the user account data from the JSON file in one go
+def getUsers():
+	try:
+		openFile = open("static/data/userData.JSON","r")
+		fileData = openFile.read()
+
+		allUsers = json.loads(fileData)
+		openFile.close()
+
+		return allUsers
+
+	except ValueError:
+		print("Coundn't parse file data: ", sys.exc_info()[0])
+		raise
+	except:
+		print("Unexpected error when reading file: ", sys.exc_info()[0])
+		raise
+
+# Method to return a specified quantity subset of data from the larger dataset
 def getDataQ(count):
 	try:
 		rCount = int(count)
@@ -39,8 +58,8 @@ def getDataQ(count):
 
 	except ValueError:
 		print("Request record count must be an int greater than 0")
-	
 
+# Method to return an exact record of data if it exists
 def getRecord(recID):
 	try:
 		allData = getData()
@@ -54,12 +73,30 @@ def getRecord(recID):
 	except:
 		print("Unexpected error occured: ", sys.exc_info()[0])
 
+# Method to return an exact user based on a username if it exists
+def getUser(uName):
+	try:
+		allUsr = getUsers()
+		acc = allUsr[uName]
+
+		return acc		
+
+	except ValueError:
+		print("Request data was incorrect: ", sys.exc_info()[0])
+		return
+	except KeyError:
+		print("Requested account could not be found: ", sys.exc_info()[0])
+		return
+	except:
+		print("Unexpected error occured: ", sys.exc_info()[0])
+		return
+
 # Method to write a dictionary of data to the JSON file
 # WARNING: This method will OVERWRITE ALL DATA in the JSON file, if there is non-backed data in the file,
 # this method could be lethal!
 def putData(data):
 	try:
-		openFile = open("static/data/data.JSON","w")
+		openFile = open("static/data/fileData.JSON","w")
 		serialisedData = json.dumps(data) 	# ADD VALIDATION HERE
 		openFile.write(serialisedData)				# IF INVALID DO NOT PROCEED WITH WRITE!
 		openFile.close()
@@ -86,8 +123,6 @@ def addData(data):
 				raise ValueError("Image owner can't be null")
 			if data[i]["img_desc"] == "":
 				raise ValueError("Image description can't be null")
-			if data[i]["img_views"] == "":
-				raise ValueError("Image viewcount can't be null")
 			if data[i]["img_tags"] == "":
 				raise ValueError("Image must have at least one tag")
 
