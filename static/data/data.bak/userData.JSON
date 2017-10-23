@@ -1,0 +1,13 @@
+{
+  "delbypicnic":{
+    "email":"gordonswan@me.com",
+    "password":"somepassword",
+    "status":3
+  },
+  
+  "user2":{
+    "email":"someone@example.com",
+    "password":"password",
+    "status":1
+  }
+}

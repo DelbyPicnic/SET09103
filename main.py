@@ -9,7 +9,7 @@ def home():
 	sTerm = request.args.get('search', '')
 	
 	if sTerm == '':
-		data = db.getDataQ(30)
+		data = db.getFeatured()
 	else:
 		data = db.searchData(sTerm)
 
@@ -61,10 +61,31 @@ def account():
 	else:
 		return "You aren't signed in!"
 
+@app.route('/mk-feat', methods=['POST','GET'])
+def feature():
+	if request.method == 'POST':
+		if request.form['img_id'] == "" or request.form['img_id'] == None:
+			# die with content fault
+			print("Cannot add image to featured without image id!")
+		else:
+			if session.get('status', None) < 2:
+				# die with uac fault
+				print("A non-admin user tried to modify content status!")
+			else:
+				# change status
+				if db.toggleFeat(request.form['img_id']):
+					print("Added an image to featured")
+				else:
+					print("Failed to change featured status, check IMG-ID")
+		
+
+	return redirect(url_for('home'))	
 		
 @app.route('/view/<imgID>')
 def view(imgID = None):
 	data = db.getRecord(imgID)
+	data["img_id"] = imgID
+
 	return render_template("view.html", data=data)
 
 if __name__ == "__main__": 

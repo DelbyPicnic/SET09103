@@ -91,6 +91,17 @@ def getUser(uName):
 		print("Unexpected error occured: ", sys.exc_info()[0])
 		return
 
+# Method to return all the featured images
+def getFeatured():
+	reqRec = {}
+	allData = getData()
+
+	for i in list(allData.keys()):
+		if allData[i]["img_feat"]:
+			reqRec[i] = allData[i]
+
+	return reqRec
+
 # Method to write a dictionary of data to the JSON file
 # WARNING: This method will OVERWRITE ALL DATA in the JSON file, if there is non-backed data in the file,
 # this method could be lethal!
@@ -149,12 +160,32 @@ def addData(data):
 			print("Unexpected error when writing file: ", sys.exc_info()[0])
 			raise
 
+# Method to change 'featured' attribute for a record
+def toggleFeat(imageID):
+	allData = getData()
+
+	for i in list(allData.keys()):
+		if i == imageID:
+			if allData[i]["img_feat"]:
+				allData[i]["img_feat"] = False
+			else:
+				allData[i]["img_feat"] = True
+
+			putData(allData)
+			return True
+
+	return False
+
 # Method to search all of the stored data, returning records where the search terms are found in the tags
 def searchData(sTerm):
 	sKeys = sTerm.lower().split(" ")
 
 	allData = getData()
 	resData = {}
+
+	# Detect wildcard - If a single star is submitted as a search key, return everything
+	if "*" in sKeys:
+		return allData
 
 	for i in list(allData.keys()):
 		tKeys = allData[i]["img_tags"].lower().split(" ")
@@ -177,6 +208,10 @@ def completeSearchData(sTerm):
 
 	allData = getData()
 	resData = {}
+
+	# Detect wildcard - If a single star is submitted as a search key, return everything
+	if "*" in sKeys:
+		return allData
 
 	for i in list(allData.keys()):
 		tKeys = allData[i]["img_tags"].lower().split(" ")
