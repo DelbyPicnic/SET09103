@@ -37,17 +37,7 @@ def login():
 			else:
 				return "Username or Password is incorrect"
 	else:
-		page =''' 
-			<html ><body >
-				<form action="" method="post" name="form">
-					<label for="uName">Username:</label>
-					<input type="text" name="uName" id="uName"/>
-					<label for="uPass">Password:</label>
-					<input type="password" name="uPass" id="uPass"/> 
-					<input type="submit" name="submit" id="submit"/>
-				</form>
-			</body><html>'''
-		return page
+		return render_template("sign-in.html")
 
 @app.route('/sign-out')
 def logout():
@@ -56,10 +46,7 @@ def logout():
 
 @app.route('/account')
 def account():
-	if session['username'] != "":
-		return "Username: %s. Email: %s. Status: %d." %(session['username'], session['email'], session['status']) 
-	else:
-		return "You aren't signed in!"
+	return render_template("account.html")
 
 @app.route('/mk-feat', methods=['POST','GET'])
 def feature():
