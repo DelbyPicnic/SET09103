@@ -4,6 +4,7 @@ import data_access as db
 app = Flask(__name__)
 app.secret_key = 'qGseyftsYb9rdYIIfz2cXjhJT9ZJwIxI8Pr0YvUd'
 
+# Route for the main homepage of the site
 @app.route('/')
 def home():
 	sTerm = request.args.get('search', '')
@@ -15,6 +16,7 @@ def home():
 
 	return render_template("index.html", data=data)
 
+# Route for user sign in and credential validation
 @app.route('/sign-in', methods=['POST','GET'])
 def login():
 	# Possibly check session here to make sure user is not already logged in
@@ -38,11 +40,13 @@ def login():
 	else:
 		return render_template("sign-in.html")
 
+# Route for the user session termination
 @app.route('/sign-out')
 def logout():
 	session.clear()
 	return redirect(url_for('home'))
 
+# Route for account information page
 @app.route('/account')
 def account():
 	return render_template("account.html")
@@ -66,7 +70,8 @@ def feature():
 		
 
 	return redirect(url_for('home'))	
-		
+
+# Route for the view content page	
 @app.route('/view/<imgID>')
 def view(imgID = None):
 	data = db.getRecord(imgID)
