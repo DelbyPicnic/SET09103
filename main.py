@@ -15,7 +15,6 @@ def home():
 
 	return render_template("index.html", data=data)
 
-# TEMP
 @app.route('/sign-in', methods=['POST','GET'])
 def login():
 	# Possibly check session here to make sure user is not already logged in
